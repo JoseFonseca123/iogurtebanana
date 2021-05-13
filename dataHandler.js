@@ -60,15 +60,7 @@ async saveCandle(tickName) {
                     utils.calculateEMA(tickName, minutesForRequest.hour, startMinute + 1, body.v[0])
                         .then(ema55 => {
 
-                            /*console.log(minutesForRequest.hour)
-                            console.log(startMinute)
-                            console.log(tickName)
-                            console.log(body.v[0])
-                            console.log(ema55)
-                            console.log(body.o[0])
-                            console.log(body.c[0])
-                            console.log(body.h[0])
-                            console.log(body.l[0])*/
+                                console.log("Create new Candle for minute: " + startMinute);
 
                                 candleStickDTO.create(minutesForRequest.hour, startMinute, tickName, body.v[0],
                                     ema55, body.o[0], body.c[0], body.h[0], body.l[0])

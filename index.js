@@ -34,6 +34,8 @@ socket.addEventListener('message', function (event) {
 
     const CandleData = JSON.parse(event.data)
 
+    //console.log(CandleData)
+
     if (CandleData.type !== 'ping') {
         dataHandler.handleCandlestick(CandleData, ticksArray)
     }

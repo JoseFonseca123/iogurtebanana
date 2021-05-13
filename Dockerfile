@@ -15,8 +15,9 @@ COPY package*.json ./
 # If you are building your code for production
 # RUN npm ci --only=production
 RUN npm install --no-optional && npm cache clean --force
+RUN npm install pm2 -g
 
 # Bundle app source
 COPY . .
 
-CMD [ "forever", "/usr/src/app/index.js" ]
+CMD [ "pm2-runtime", "/usr/src/app/index.js" ]
