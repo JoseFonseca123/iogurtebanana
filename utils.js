@@ -65,7 +65,7 @@ const fillDatabase = function (tickName) {
     console.log(minutesForRequest)
     console.log(URL)
 
-    db.sequelize.sync({force: true}).then(() => {
+    db.sequelize.sync({force: false}).then(() => {
         console.log("Drop and re-sync db.");
     }).then(
     request(URL, {json: true}, (err, res, body) => {

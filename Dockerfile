@@ -19,4 +19,4 @@ RUN npm install --no-optional && npm cache clean --force
 # Bundle app source
 COPY . .
 
-CMD [ "node", "/usr/src/app/index.js" ]
+CMD [ "forever", "/usr/src/app/index.js" ]
