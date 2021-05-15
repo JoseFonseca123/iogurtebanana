@@ -9,7 +9,7 @@ const crypto_validator = function(tickName,minute,price, candleMaxPrice) {
         })
 
         console.log("***************************************");
-        oonsole.log(tickName);
+        console.log(tickName);
         console.log("cryptovalidator @ minute " + minute )
 
         if(candleGreen(candles,price) && upTrend(candles,price) &&
