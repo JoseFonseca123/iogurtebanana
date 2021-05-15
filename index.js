@@ -7,7 +7,8 @@ const db = require("./models");
 require('log-timestamp')
 
 //var tickSubscribe = ['LIFE', 'ITRM', 'SOS', 'AEI'];
-var tickSubscribe = ['BINANCE:BTCUSDT','BINANCE:XRPUSDT','BINANCE:DOGEUSDT','BINANCE:ETHUSDT','BINANCE:RLCUSDT'];
+var tickSubscribe = ['BINANCE:BTCUSDT','BINANCE:XRPUSDT','BINANCE:DOGEUSDT','BINANCE:ETHUSDT','BINANCE:RLCUSDT','BINANCE:SUSHIUSDT','BINANCE:NANOUSDT','BINANCE:MATICUSDT','BINANCE:KSMUSDT',
+                    'BINANCE:ADAUSDT','BINANCE:CAKEUSDT','BINANCE:DOTUSDT',,'BINANCE:THETAUSDT'];
 global.Stocks = [];
 let ticksArray = [];
 
@@ -33,13 +34,10 @@ socket.addEventListener('open', function (event) {
 socket.addEventListener('message', function (event) {
 
     const CandleData = JSON.parse(event.data)
-
-    //console.log(CandleData)
-
+    
     if (CandleData.type !== 'ping') {
         dataHandler.handleCandlestick(CandleData, ticksArray)
     }
-
 });
 
 // Unsubscribe

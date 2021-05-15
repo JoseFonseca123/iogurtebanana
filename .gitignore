@@ -1,0 +1,2 @@
+#ignore database configs
+models/index.js
