@@ -8,7 +8,9 @@ const crypto_validator = function(tickName,minute,price, candleMaxPrice) {
             candles.push(candleBD.dataValues)
         })
 
-        console.log("Crypto Validator for minute: " + minute)
+        console.log("***************************************");
+        oonsole.log(tickName);
+        console.log("cryptovalidator @ minute " + minute )
 
         if(candleGreen(candles,price) && upTrend(candles,price) &&
             !trendExhaust(candles,price) && !candleExhaust(candles,price)
