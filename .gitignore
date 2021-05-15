@@ -1,3 +1,1 @@
 #ignore database configs
-models/index.js
-db.config.js
