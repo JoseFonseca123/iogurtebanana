@@ -40,10 +40,8 @@ async checkEMA(tickName, volume, startMinute,price) {
     utils.calculateEMA(tickName, minutesForRequest.hour, startMinute, volume)
         .then(ema55 => {
             if (volume>=ema55*4.2 ) {
-                console.log("\n\n\n\t   EMA OVER!!!!!!!!!!!!!!!")
-                console.log("\n\n\n\t   "+tickName)
-                console.log("\n\n\n\t   "+startMinute)
-                //validator.validator(tickName, startMinute, price)
+                console.log("ema55 over @ "+  minutesForRequest.hour +":"+ startMinute )
+                validator.validator(tickName, startMinute, price)
             }
         })
 }
@@ -59,9 +57,6 @@ async saveCandle(tickName) {
 
                     utils.calculateEMA(tickName, minutesForRequest.hour, startMinute + 1, body.v[0])
                         .then(ema55 => {
-
-                                console.log("Create new Candle for minute: " + startMinute);
-
                                 candleStickDTO.create(minutesForRequest.hour, startMinute, tickName, body.v[0],
                                     ema55, body.o[0], body.c[0], body.h[0], body.l[0])
                             }
