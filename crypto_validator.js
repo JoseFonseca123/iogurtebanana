@@ -9,12 +9,12 @@ const crypto_validator = function(tickName,minute,price, candleMaxPrice) {
         })
 
         console.log("***************************************");
-        oonsole.log(tickName);
+        console.log(tickName);
         console.log("cryptovalidator @ minute " + minute )
 
         if(candleGreen(candles,price) && upTrend(candles,price) &&
             !trendExhaust(candles,price) && !candleExhaust(candles,price)
-            && !lastBigRed(candles) && !deadStar(candleMaxPrice)
+            && !lastBigRed(candles) && !deadStar(candleMaxPrice,price)
         ) {
             console.log("\n\n\t BETTT \n")
             console.log("\t "+tickName+" \n")
@@ -54,7 +54,7 @@ const lastBigRed = function (candles,price) {
     return price <= candles[0].closePrice*1.02;
 }
 
-const deadStar = function (candleMaxPrice) {
+const deadStar = function (candleMaxPrice,price) {
     console.log("deadStar")
     console.log(candleMaxPrice >= price * 1.008)
     return candleMaxPrice >= price * 1.008;

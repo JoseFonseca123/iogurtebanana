@@ -57,13 +57,16 @@ exports.findAll = () => {
         });
 };
 
-exports.get55Interval = (tick, hour, startMinute, endMinute) => {
+exports.get55Interval = (tick) => {
     return CandleSticks.findAll({
         where: {
-            minute: {[Op.between]: [startMinute, endMinute]},
-            hour: hour,
             Tick: tick
-        }
+        },
+        order: [
+            ['hour', 'DESC'],
+            ['minute', 'DESC'],
+        ],
+        limit: 55
     })
 };
 

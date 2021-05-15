@@ -52,6 +52,18 @@ const generateDate1H = function () {
     return { 'hour':hour, 'initialMinute': minute_0,'finalMinute':minute_1};
 }
 
+const generateDate4H = function () {
+    //+ 5 sec because server time is ahead 0.5s of local time
+    date = Date.now() + 5000;
+    let newDate = new Date(date);
+    let minute_1 = Math.floor(newDate / 1000 - newDate.getSeconds());
+    let minute_0 = minute_1 - 60*60*4;
+
+    const hour = (minute_1 === 0) ? newDate.getHours() : newDate.getHours() - 1;
+
+    return { 'hour':hour, 'initialMinute': minute_0,'finalMinute':minute_1};
+}
+
 const generateURL = function (tickName,minutesForRequest) {
     return 'https://finnhub.io/api/v1/stock/candle?symbol=' + tickName + '&resolution=1&from='
         + minutesForRequest.initialMinute + '&to=' + minutesForRequest.finalMinute + '&token=c1n1b8q37fkvp2lsfpig'
@@ -59,7 +71,7 @@ const generateURL = function (tickName,minutesForRequest) {
 
 const fillDatabase = function (tickName) {
 
-    let minutesForRequest = generateDate1H()
+    let minutesForRequest = generateDate4H()
     let URL = generateURL(tickName,minutesForRequest)
 
     console.log(minutesForRequest)
@@ -73,7 +85,7 @@ const fillDatabase = function (tickName) {
             return console.log(err);
         else {
             if (body.s === 'ok') {
-                for(let i = 0; i<59 ; i++)
+                for(let i = 0; i<59*4 ; i++)
                 {
                     let responseDate = unixToDate(body.t[i]*1000)
                     candleStickDTO.create(responseDate.getHours(), responseDate.getMinutes(), tickName, body.v[i],
@@ -104,13 +116,19 @@ const emaMATH = async function (volumeArray,volume) {
     let volumeArrayAux = [];
     volumeArray = orderArray(volumeArray)
 
-    volumeArray.forEach(value => {
-        volumeArrayAux.push(value.volume)
-    })
+    if( volumeArray.length >= 49 ) {
+        volumeArray.forEach(value => {
+            volumeArrayAux.push(value.volume)
+        })
 
-    var ema = new EMA({period : 50, values : volumeArrayAux});
-    ema.getResult()
-    return ema.nextValue(volume);
+        var ema = new EMA({period : 50, values : volumeArrayAux});
+        ema.getResult()
+        return ema.nextValue(volume);
+    }
+     else {
+         console.log("NOT ENOUGH VALUES TO CALCULATE EMA")
+     }
+    
 }
 
 const calculateEMA = async function (tickName, hour, minute, volume) {
@@ -119,16 +137,7 @@ const calculateEMA = async function (tickName, hour, minute, volume) {
 
             let volumeArray = [];
 
-            if (minute >= 55) {
-                candleStickDTO.get55Interval(tickName, hour, minute - 54, minute - 1).then(candlesBD => {
-                    candlesBD.forEach(candleBD => {
-                        volumeArray.push(candleBD.dataValues.volume)
-                    })
-
-                    resolve(emaMATH(volumeArray, volume));
-                })
-            } else {
-                candleStickDTO.get55Interval(tickName, hour, 0, minute).then(candlesBD => {
+                candleStickDTO.get55Interval(tickName).then(candlesBD => {
                     candlesBD.forEach(candleBD => {
                         volumeArray.push({
                             volume: candleBD.dataValues.volume, minute: candleBD.dataValues.minute,
@@ -136,28 +145,12 @@ const calculateEMA = async function (tickName, hour, minute, volume) {
                         })
                     })
                     return volumeArray;
-                }).then(volumeArray => {
-
-                    if (hour === 0)
-                        hour = 24
-
-                    candleStickDTO.get55Interval(tickName, hour - 1, 5 + minute, 59)
-                        .then(candlesBD => {
-                            candlesBD.forEach(candleBD => {
-                                volumeArray.push({
-                                    volume: candleBD.dataValues.volume, minute: candleBD.dataValues.minute,
-                                    hour: candleBD.dataValues.hour
-                                })
-                            })
-
-                            resolve(emaMATH(volumeArray, volume));
-                        })
-                })
-            }
-        }
+                }).then (volumeArray => {
+                    resolve(emaMATH(volumeArray, volume));
+                })}
     ).then(result => {
         return result;
     })
 }
 
-module.exports = {connectDb,unixToDate, generateDate1M,generateDate1H,calculateEMA,generateURL,fillDatabase}
+module.exports = {connectDb,unixToDate, generateDate1M,generateDate1H,generateDate4H,calculateEMA,generateURL,fillDatabase}
