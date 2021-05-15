@@ -13,8 +13,9 @@ const crypto_validator = function(tickName,minute,price, candleMaxPrice) {
         console.log("cryptovalidator @ minute " + minute )
 
         if(candleGreen(candles,price) && upTrend(candles,price) &&
-            !trendExhaust(candles,price) && !candleExhaust(candles,price)
-            && !lastBigRed(candles) && !deadStar(candleMaxPrice,price)
+            !trendExhaust(candles,price) && !candleflat(candles,price)   
+            && !candleExhaust(candles,price) && !lastBigRed(candles) 
+            && !deadStar(candleMaxPrice,price)
         ) {
             console.log("\n\n\t BETTT \n")
             console.log("\t "+tickName+" \n")
@@ -40,6 +41,12 @@ const trendExhaust = function (candles,price) {
     console.log("trendExhaust")
     console.log(candles[0].closePrice >= candles[4].openPrice*1.05)
     return candles[0].closePrice >= candles[4].openPrice*1.05;
+}
+
+const candleflat = function (candles,price) {
+    console.log("candleExhaust")
+    console.log(candles[0].closePrice*1.001 > price)
+    return candles[0].closePrice*1.001 > price;
 }
 
 const candleExhaust = function (candles,price) {
