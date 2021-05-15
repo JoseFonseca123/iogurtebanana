@@ -9,7 +9,7 @@ services:
         volumes:
             - ./pgdata:/var/lib/postgres/data
         ports:
-            - "5432:5432"
+            - "74325:5432"
     nodejs:
         build: ./
         ports:
