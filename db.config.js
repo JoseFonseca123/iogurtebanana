@@ -1,8 +1,8 @@
-/*module.exports = {
+module.exports = {
   HOST:"db",
   USER:"postgres",
   PASSWORD:"postgres",
-  DB:"stripe-example",
+  DB:"db",
   dialect:"postgres",
   pool: {
     max: 5,
@@ -10,10 +10,10 @@
     acquire: 30000,
     idle: 10000
   }
-};*/
+};
 
 
-module.exports = {
+/*module.exports = {
   HOST: "localhost",
   USER: "postgres",
   PASSWORD: "admin",
@@ -25,4 +25,4 @@ module.exports = {
     acquire: 30000,
     idle: 10000
   }
-};
+};*/
