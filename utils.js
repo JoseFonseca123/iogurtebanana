@@ -11,6 +11,9 @@ const connectDb = async (retries = 5) => {
       try {
         await db.sequelize.authenticate();
         console.log('Connection has been established successfully.');
+        db.sequelize.sync({force: true}).then(() => {
+            console.log("Drop and re-sync db.");
+        })
         break;
       } catch (err) {
         console.log(err);
@@ -77,9 +80,6 @@ const fillDatabase = function (tickName) {
     console.log(minutesForRequest)
     console.log(URL)
 
-    db.sequelize.sync({force: false}).then(() => {
-        console.log("Drop and re-sync db.");
-    }).then(
     request(URL, {json: true}, (err, res, body) => {
         if (err)
             return console.log(err);
@@ -94,7 +94,7 @@ const fillDatabase = function (tickName) {
                 }
             }
         }
-    }))
+    })
 }
 
 const orderArray = function (array) {
