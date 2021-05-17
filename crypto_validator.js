@@ -3,10 +3,17 @@ const candleStickDTO = require("./controllers/candleStick.controller");
 const crypto_validator = function(tickName,minute,price, candleMaxPrice) {
     let candles = [];
 
+
+	
+
+
     candleStickDTO.getLast5(tickName).then(candlesBD => {
         candlesBD.forEach(candleBD => {
             candles.push(candleBD.dataValues)
         })
+
+	    console.log("candles from DB!!!!");
+	    console.log(candles);
 
         console.log("***************************************");
         console.log(tickName);
