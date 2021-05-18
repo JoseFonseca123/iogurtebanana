@@ -11,22 +11,22 @@ var tickSubscribe = ['BINANCE:BTCUSDT','BINANCE:XRPUSDT','BINANCE:DOGEUSDT','BIN
                     'BINANCE:ADAUSDT','BINANCE:CAKEUSDT','BINANCE:DOTUSDT','BINANCE:THETAUSDT'];
 global.Stocks = [];
 let ticksArray = [];
+let promises = [];
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
 
 // Connection opened -> Subscribe
-socket.addEventListener('open', function (event) {
+socket.addEventListener('open', async function (event) {
 
-     utils.connectDb().then( a  => {
+    utils.connectDb().then( a  => {
         tickSubscribe.forEach((tick,index) => {
-            utils.fillDatabase(tick);
-        })
-
-        setTimeout(() => {
-            tickSubscribe.forEach(tick => {
+            promises.push(new Promise (resolver => setTimeout(() => {utils.fillDatabase(tick)
                 socket.send(JSON.stringify({'type': 'subscribe', 'symbol': tick}))
                 let base  = {"name": tick, "Minute": "0", "Price":-1, "Volume":-1, "secondaEMA":-1}
-                global.Stocks.push(base)
+                global.Stocks.push(base)},5000*index)))
             })
-        },2000)
      }) ;        
 });
 

@@ -85,7 +85,7 @@ const fillDatabase = function (tickName) {
             return console.log(err);
         else {
             if (body.s === 'ok') {
-                for(let i = 0; i<59*4 ; i++)
+                for(let i = 0; i<body.v.length-1 ; i++)
                 {
                     let responseDate = unixToDate(body.t[i]*1000)
                     candleStickDTO.create(responseDate.getHours(), responseDate.getMinutes(), tickName, body.v[i],
