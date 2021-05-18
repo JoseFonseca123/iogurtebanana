@@ -44,7 +44,7 @@ async checkEMA(tickName, volume, startMinute,price,candleMaxPricepriceMax) {
     let minutesForRequest = utils.generateDate1M();
     utils.calculateEMA(tickName, minutesForRequest.hour, startMinute, volume)
         .then(ema55 => {
-            if (volume>=ema55*0.2 ) {
+            if (volume>=ema55*4.2) {
                 if(tickName.includes('BINANCE'))
                     crypto_validator.crypto_validator(tickName, startMinute, price, candleMaxPricepriceMax)
                 else
@@ -65,8 +65,9 @@ async saveCandle(tickName) {
                     utils.calculateEMA(tickName, minutesForRequest.hour, startMinute + 1, body.v[0])
                         .then(ema55 => {
                                 //console.log("Create new Candle for minute: " + startMinute);
-                                if(minute === 59)
+                                if(startMinute === 59) {
                                     minutesForRequest.hour --
+                                }
                                 candleStickDTO.create(minutesForRequest.hour, startMinute, tickName, body.v[0],
                                     ema55, body.o[0], body.c[0], body.h[0], body.l[0])
                             }

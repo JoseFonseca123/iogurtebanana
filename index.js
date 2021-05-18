@@ -13,10 +13,6 @@ global.Stocks = [];
 let ticksArray = [];
 let promises = [];
 
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
-
 // Connection opened -> Subscribe
 socket.addEventListener('open', async function (event) {
 

@@ -3,22 +3,17 @@ const candleStickDTO = require("./controllers/candleStick.controller");
 const crypto_validator = function(tickName,minute,price, candleMaxPrice) {
     let candles = [];
 
-
-	
-
+    console.log("***************************************");
+    console.log("cryptovalidator @ minute " + minute )
+    console.log(tickName);
+    console.log(price)
 
     candleStickDTO.getLast5(tickName).then(candlesBD => {
         candlesBD.forEach(candleBD => {
             candles.push(candleBD.dataValues)
-        })
+        })    
 
-	    console.log("candles from DB!!!!");
-	    console.log(candles);
-
-        console.log("***************************************");
-        console.log(tickName);
-	console.log(price)
-        console.log("cryptovalidator @ minute " + minute )
+        console.log(candles);
 
         if(candleGreen(candles,price) && upTrend(candles,price) &&
             !trendExhaust(candles,price) && !candleflat(candles,price)   
@@ -64,17 +59,17 @@ const trendExhaust = function (candles,price) {
 const candleflat = function (candles,price) {
     console.log("candleFlat")
 	console.log("candles[0].closePrice >= price")
-	 console.log(candles[0].closePrice)
+	console.log(candles[0].closePrice)
     console.log(candles[0].closePrice*1.003 >= price)
     return candles[0].closePrice*1.003 >= price;
 }
 
 const candleExhaust = function (candles,price) {
     console.log("candleExhaust")
-	console.log("candles[0].closePrice*1.05")
-	console.log(candles[0].closePrice*1.05)
-    console.log(price > candles[0].closePrice*1.05)
-    return price > candles[0].closePrice*1.05;
+	console.log("candles[0].closePrice*1.02")
+	console.log(candles[0].closePrice*1.02)
+    console.log(price > candles[0].closePrice*1.02)
+    return price > candles[0].closePrice*1.02;
 }
 
 const lastBigRed = function (candles,price) {
