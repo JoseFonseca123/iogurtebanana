@@ -20,11 +20,11 @@ CandleData.data.forEach(candle => {
                 global.Stocks[index].Volume += candle.v;
 
                 if(candle.p > global.Stocks[index].candleMaxPrice)
-                    global.Stocks[index].minutePriceMax = candle.p
+                    global.Stocks[index].candleMaxPrice = candle.p
 
-                if (candleSeconds > global.Stocks[index].secondaEMA) {
+                if (candleSeconds > global.Stocks[index].secondEMA) {
                     this.checkEMA(stock.name, global.Stocks[index].Volume, candleMinute, candle.p, global.Stocks[index].candleMaxPrice)
-                    global.Stocks[index].secondaEMA = candleSeconds;
+                    global.Stocks[index].secondEMA = candleSeconds;
                 }
 
             } else if (candleMinute > global.Stocks[index].Minute || candleMinute === 0) {
@@ -32,7 +32,7 @@ CandleData.data.forEach(candle => {
                 //console.log(candle.s + ": at " + candleMinute + " min there were " + global.Stocks[index].Volume + " stocks ");
                 global.Stocks[index].Minute = candleMinute;
                 global.Stocks[index].Volume = 0;
-                global.Stocks[index].secondaEMA = 1;
+                global.Stocks[index].secondEMA = 1;
                 global.Stocks[index].candleMaxPrice = 0;
             }
         }
@@ -68,7 +68,7 @@ async saveCandle(tickName) {
                                 if(startMinute === 59) {
                                     minutesForRequest.hour --
                                 }
-                                candleStickDTO.create(minutesForRequest.hour, startMinute, tickName, body.v[0],
+                                candleStickDTO.create(new Date().getDate(), minutesForRequest.hour, startMinute, tickName, body.v[0],
                                     ema55, body.o[0], body.c[0], body.h[0], body.l[0])
                             }
                         )

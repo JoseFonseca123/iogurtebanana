@@ -18,9 +18,10 @@ socket.addEventListener('open', async function (event) {
 
     utils.connectDb().then( a  => {
         tickSubscribe.forEach((tick,index) => {
-            promises.push(new Promise (resolver => setTimeout(() => {utils.fillDatabase(tick)
+            promises.push(new Promise (resolver => setTimeout(() => {
+                utils.fillDatabase(tick)
                 socket.send(JSON.stringify({'type': 'subscribe', 'symbol': tick}))
-                let base  = {"name": tick, "Minute": "0", "Price":-1, "Volume":-1, "secondaEMA":-1}
+                let base  = {"name": tick, "Minute": "0", "Price":-1, "Volume":-1, "secondEMA":-1,"candleMaxPrice":-1}
                 global.Stocks.push(base)},5000*index)))
             })
      }) ;        

@@ -88,7 +88,7 @@ const fillDatabase = function (tickName) {
                 for(let i = 0; i<body.v.length-1 ; i++)
                 {
                     let responseDate = unixToDate(body.t[i]*1000)
-                    candleStickDTO.create(responseDate.getHours(), responseDate.getMinutes(), tickName, body.v[i],
+                    candleStickDTO.create(new Date().getDate(),responseDate.getHours(), responseDate.getMinutes(), tickName, body.v[i],
                         0, body.o[i], body.c[i], body.h[i], body.l[i])
                     console.log("Candle " + tickName +  " DBCreated")
                 }

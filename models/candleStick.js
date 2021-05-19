@@ -1,5 +1,8 @@
 module.exports = (sequelize, Sequelize) => {
     const candleStick = sequelize.define("candleStick", {
+            day: {
+                type: Sequelize.INTEGER
+            },
             hour: {
                 type: Sequelize.INTEGER
             },

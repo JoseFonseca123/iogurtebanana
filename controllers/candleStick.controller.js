@@ -4,7 +4,7 @@ const Op = db.Sequelize.Op;
 const Sequelize = require("sequelize");
 
 // Create and Save a new Tutorial
-exports.create = (hourvar, minutevar, tickvar, volumevar, sma50volume, openPricevar, closePricevar, highvar, lowvar) => {
+exports.create = (day,hourvar, minutevar, tickvar, volumevar, sma50volume, openPricevar, closePricevar, highvar, lowvar) => {
     // Validate request
     /*if (!minute || !tick || !volume) {
       res.status(400).send({
@@ -14,6 +14,7 @@ exports.create = (hourvar, minutevar, tickvar, volumevar, sma50volume, openPrice
     }*/
 
     const candleSticks = {
+        day: day,
         hour: hourvar,
         minute: minutevar,
         Tick: tickvar,
@@ -63,6 +64,7 @@ exports.get55Interval = (tick) => {
             Tick: tick
         },
         order: [
+            ['day', 'DESC'],
             ['hour', 'DESC'],
             ['minute', 'DESC'],
         ],
@@ -76,6 +78,7 @@ exports.getLast5 = (tick) => {
             Tick: tick
         },
         order: [
+            ['day', 'DESC'],
             ['hour', 'DESC'],
             ['minute', 'DESC'],
         ],
