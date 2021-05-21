@@ -1,5 +1,8 @@
 module.exports = (sequelize, Sequelize) => {
     const bets = sequelize.define("bets", {
+          day: {
+            type: Sequelize.INTEGER
+          },
           hour: {
             type: Sequelize.INTEGER
           },
@@ -9,22 +12,7 @@ module.exports = (sequelize, Sequelize) => {
           Tick: {
             type: Sequelize.STRING
           },
-          openPrice: {
-            type: Sequelize.FLOAT
-          },
-          closePrice: {
-            type: Sequelize.FLOAT
-          },
-          High: {
-            type: Sequelize.FLOAT
-          },
-          Low: {
-            type: Sequelize.FLOAT
-          },
-          volume: {
-            type: Sequelize.FLOAT
-          },
-          SMA50volume: {
+          price: {
             type: Sequelize.FLOAT
           },
           executed: {
@@ -35,7 +23,7 @@ module.exports = (sequelize, Sequelize) => {
           indexes: [
             {
               unique: true,
-              fields: ['hour', 'minute', 'Tick']
+              fields: ['day','hour', 'minute', 'Tick']
             }
           ]
         });

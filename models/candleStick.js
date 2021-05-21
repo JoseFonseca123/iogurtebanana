@@ -35,7 +35,7 @@ module.exports = (sequelize, Sequelize) => {
             indexes: [
                 {
                     unique: true,
-                    fields: ['hour', 'minute', 'Tick']
+                    fields: ['day','hour', 'minute', 'Tick']
                 }
             ]
         });

@@ -46,7 +46,7 @@ async checkEMA(tickName, volume, startMinute,price,candleMaxPricepriceMax) {
         .then(ema55 => {
             if (volume>=ema55*4.2) {
                 if(tickName.includes('BINANCE'))
-                    crypto_validator.crypto_validator(tickName, startMinute, price, candleMaxPricepriceMax)
+                    crypto_validator.crypto_validator(tickName, minutesForRequest.hour, startMinute, price, candleMaxPricepriceMax)
                 else
                     validator.validator(tickName, startMinute, price, candleMaxPricepriceMax)
             }

@@ -1,6 +1,7 @@
 const candleStickDTO = require("./controllers/candleStick.controller");
+const betDTO = require("./controllers/bets.controller");
 
-const crypto_validator = function(tickName,minute,price, candleMaxPrice) {
+const crypto_validator = function(tickName,hour, minute,price, candleMaxPrice) {
     let candles = [];
 
     console.log("***************************************");
@@ -18,10 +19,7 @@ const crypto_validator = function(tickName,minute,price, candleMaxPrice) {
             && !candleExhaust(candles,price) && !lastBigRed(candles) 
             && !deadStar(candleMaxPrice,price)
         ) {
-            console.log("\t BETTT \n")
-            console.log("\t "+tickName+" \n")
-            console.log("\t "+minute+" \n")
-            console.log("\t "+price+" \n")
+            betDTO.create(new Date().getDate(),hour,minute,tickName,price,null)
         }
     })
 }

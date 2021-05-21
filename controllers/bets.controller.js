@@ -3,19 +3,22 @@ const Bets = db.bets;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new Tutorial
-exports.create = (hourvar, minutevar, tickvar, volumevar, sma50volume, openPricevar, closePricevar, highvar, lowvar) => {
+exports.create = (dayvar,hourvar, minutevar, tickvar, pricevar, executedvar ) => {
+    // Validate request
+    /*if (!minute || !tick || !volume) {
+      res.status(400).send({
+        message: "Content can not be empty!"
+      });
+      return;
+    }*/
 
     const bets = {
+        day: dayvar,
         hour: hourvar,
         minute: minutevar,
         Tick: tickvar,
-        volume: volumevar,
-        openPrice: openPricevar,
-        closePrice: closePricevar,
-        SMA50volume: sma50volume,
-        High: highvar,
-        Low: lowvar,
-        executed: false
+        price: pricevar,
+        executed: executedvar
     };
 
     // Save Tutorial in the database
